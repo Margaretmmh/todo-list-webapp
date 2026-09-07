@@ -1,14 +1,16 @@
-import { useMemo } from 'react'
-import type { Theme } from '../types'
-import { headerDateStr } from '../utils/date'
+import type { Theme } from "../types";
+import { headerDateStr } from "../utils/date";
+import { useToday } from "../hooks/useToday";
 
 interface HeaderProps {
-  theme: Theme
-  onToggleTheme: () => void
+  theme: Theme;
+  onToggleTheme: () => void;
 }
 
 export default function Header({ theme, onToggleTheme }: HeaderProps) {
-  const dateInfo = useMemo(() => headerDateStr(), [])
+  // 依赖 useToday：跨午夜时日期自动更新
+  useToday();
+  const dateInfo = headerDateStr();
 
   return (
     <header>
@@ -23,8 +25,8 @@ export default function Header({ theme, onToggleTheme }: HeaderProps) {
         onClick={onToggleTheme}
         title="切换深色/浅色模式"
       >
-        {theme === 'dark' ? '☀️' : '🌙'}
+        {theme === "dark" ? "☀️" : "🌙"}
       </button>
     </header>
-  )
+  );
 }
